@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MMDocRAG">
+  <meta name="keywords" content="multimodal chatbot">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyNewdataset</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="static/images/logo.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+  <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.27.0/gradio.js"></script>
+</head>
+
+
+<style>
+    .section {
+    margin-bottom: -30px; /* Adjust this value as needed to reduce the space */
+  }
+  .expandable-card .card-text-container {
+    max-height: 200px;
+    overflow-y: hidden;
+    position: relative;
+  }
+
+  .expandable-card.expanded .card-text-container {
+    max-height: none;
+  }
+
+  .expand-btn {
+    position: relative;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* margin-top: -20px; */
+    /* justify-content: center; */
+    color: #510c75;
+    border-color: transparent;
+  }
+
+  .expand-btn:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    text-decoration: none;
+    border-color: transparent;
+    color: #510c75;
+  }
+
+  .expand-btn:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  .expandable-card:not(.expanded) .card-text-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 1));
+  }
+
+  .expandable-card:not(.expanded) .expand-btn {
+    margin-top: -40px;
+  }
+
+  .card-body {
+    padding-bottom: 5px;
+  }
+
+  .vertical-flex-layout {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .figure-img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .adjustable-font-size {
+    font-size: calc(0.5rem + 2vw);
+  }
+
+  .chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  #gradio pre {
+    background-color: transparent;
+  }
+  
+	/* 使用渐变颜色实现彩虹字体 */
+	.rainbow-text {
+	  background: linear-gradient(to right, #3498db, #2ecc71);
+	  -webkit-background-clip: text;
+	  color: transparent;
+	  display: inline-block;
+	  font-weight: bold;
+	}
+  
+</style>
+
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"> <span class="rainbow-text">MMDocRAG</span>: Benchmarking interleaved image and text generation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"> <a href="">Kuicai Dong*</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Yujing Chang*</a><sup></sup><sup>,</span>
+            <span class="author-block"> <a href="">Shijie Huang</a><sup></sup>,</span>
+            <span class="author-block"> <a href="">Yasheng Wang</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Ruiming Tang</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Yong Liu</a><sup>1</sup>,</span>
+        </div>
+
+          <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Huawei Noah's Ark Lab</span>
+   
+          </div>
+		  <div class="is-size-6 publication-authors">
+             
+            </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block"> <a href="https1111111111111111111111"
+                   class="external-link button is-normal is-rounded is-dark"> <span class="icon"> <i class="ai ai-arxiv"></i> </span> <span>arXiv</span> </a> </span>
+              <!-- Code Link. -->
+              <span class="link-block"> <a href="https:11111111111111111111"
+                   class="external-link button is-normal is-rounded is-dark"> <span class="icon"> <i class="fab fa-github"></i> </span> <span>Code</span> </a> </span>
+              <!-- HuggingFace Link. -->
+              <span class="link-block"> <a href="https:11111111111111111111111"
+                   class="external-link button is-normal is-rounded is-dark"><span class="icon">🤗</span><span>Dataset</span> </a></span>
+           
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <centering>
+      <div style="text-align: center;">
+        <img id="pipeline" width="105%" src="static/images/top_figure1.png">
+      </div>
+    </p>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+	<div style="text-align: center;">
+	  </div><br>
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+		  <style>
+			/* 使用渐变颜色实现彩虹字体 */
+			.rainbow-text {
+			  background: linear-gradient(to right, #3498db, #2ecc71);
+			  -webkit-background-clip: text;
+			  color: transparent;
+			  display: inline-block;
+			  font-weight: bold;
+			}
+		  </style>
+          <p>
+            Document Visual Question Answering (DocVQA) faces dual challenges in pro-
+cessing lengthy multimodal documents (text, images, tables) and performing cross-
+modal reasoning. Current document retrieval-augmented generation (DocRAG)
+methods remain limited by their text-centric approaches, frequently missing crit-
+ical visual information. The field also lacks robust benchmarks for assessing
+multimodal evidence integration and selection. We introduce MMDocRAG, a com-
+prehensive benchmark featuring 4,055 expert-annotated QA pairs with multi-page,
+cross-modal evidence chains. Our framework introduces innovative metrics for
+evaluating multimodal quote selection and enables answers that combine text with
+relevant visual elements. Through large-scale experiments with 36 language/vision
+models and 14 retrieval systems, we identify persistent challenges in multimodal
+evidence handling. Key findings reveal proprietary vision-language models show
+moderate advantages over text-only models, while open-source alternatives trail
+significantly. Notably, fine-tuned LLMs achieve substantial improvements when
+using detailed image descriptions. MMDocRAG establishes a rigorous testing ground
+and provides actionable insights for developing more robust multimodal DocVQA
+systems.         </p>
+      </div>
+    </div>
+  </div>
+
+
+<section class="section"  style="background-color:#efeff081" id="Highlight">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-six-fifths">
+            <h2 class="title is-3">🔥Highlight</h2>
+            <div class="content has-text-justified">
+              <p style="font-size: 15px;">
+                <ul>
+                <li><b>Multimodal: </b>MMDocRAG supports a novel answer generation paradigm where text, tables, charts, and images are interleaved within responses. This design enables more interpretable, verifiable, and context-rich answers, moving beyond pure-text outputs.</li>
+                <li><b>Evaluation: </b> We introduce novel evaluation methodologies, including fine-grained quote selection under noisy conditions and holistic assessment of multimodal generation based on fluency, citation quality, text-image coherence, reasoning, and factual accuracy.</li> 
+                <li><b>Analysis: </b> Through extensive experiments across 36 cutting-edge models, we reveal that even state-of-the-art VLMs and LLMs struggle with multimodal integration, highlighting the necessity of targeted fine-tuning for advancing multimodal document understanding.</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+</section><br>
+
+
+<section class="section" id="Benchmark Overview">
+   <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-six-fifths">
+          <h2 class="title is-3"> <span class="rainbow-text">MMDocRAG</span> Overview</h2>
+        </div>
+	    </div>
+	      <div class="container is-max-desktop">
+	        <div class="columns is-centered">
+	          <div class="column is-full-width">
+	            <div class="content has-text-justified">
+	              <p>
+                  The automatic understanding of long and complex documents with multimodal components remains a challenging yet crucial task. Despite recent advances in large vision-language models (LVLMs) and retrieval-augmented generation (RAG) techniques, existing benchmarks primarily focus on unimodal or short-context scenarios, lacking a comprehensive evaluation framework for long-context, multimodal document understanding.
+                <br>
+                To address this gap, we introduce <span class="rainbow-text">MMDocRAG</span>, a large-scale multimodal dataset comprising 4,055 expertly-annotated question-answer pairs based on 222 lengthy documents spanning 10 diverse domains. Each document averages 67 pages and approximately 33,000 words, and contains rich multimodal structures including text, tables, charts, and images. The questions are carefully curated or newly created by expert annotators, each supported by cross-page, cross-modal evidence chains. MMDocRAG also integrates 48,618 text quotes and 32,071 image quotes, with a balanced mixture of gold and hard negative samples to promote fine-grained quote selection. Notably, the dataset supports interleaved multimodal answer generation, enabling models to seamlessly integrate textual and visual evidence in their outputs. This design offers a realistic and comprehensive resource for advancing multimodal document understanding in long-context settings.
+               <br>
+                <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="80%" src="static/images/dataset_overview.png">
+                  </div>
+            </div>
+            </b></font>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+<section class="section" id="Construction">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3"> <span class="rainbow-text">MMDocRAG</span> Construction</h2>
+    </div>
+  </div>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <div class="content has-text-justified">
+            <p>
+              The annotation pipeline of <span class="rainbow-text">MMDocRAG</span> includes three stages.
+ <b>(1) Document Parsing and Evidence Selection:</b> We process 313 lengthy documents from the MMDocIR corpus using MinerU, segmenting them into semantically coherent quotes based on layout detection. Each quote is stored in text, OCR-text, and VLM-text formats, forming a multimodal evidence pool.
+ <b>(2) Multimodal Answer Generation:</b> We refine 1,658 existing QA pairs and generate new QA pairs through VLM-based annotation, ensuring each question-answer pair is grounded in multimodal evidence and supports interleaved text-image generation. Questions span eight predefined types and are carefully revised for clarity, specificity, and multimodal richness.
+ <b>(3) Gold Quotes Citation:</b> To enhance factual grounding and answer traceability, we automatically insert citations of gold text quotes into multimodal answers using dense retrieval and LLM selection, followed by expert verification to ensure citation accuracy and coherence.
+ <b>(4) Negative Quotes Augmentation:</b> To increase retrieval difficulty, we augment candidate sets with hard negative quotes—irrelevant yet highly similar text and image segments—carefully mixed with gold quotes. Two candidate set versions (15 or 20 quotes) are constructed per question for fine-grained evaluation of quote selection capabilities.
+
+                <centering>
+                <div style="text-align: center;">
+                  <img id="teaser" width="100%" src="static/images/annotation_pipeline.png">
+                </div>
+            </p>
+          </div>
+          </b></font>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="Evaluation">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-six-fifths">
+          <h2 class="title is-3"> <span class="rainbow-text">MMDocRAG</span> Evaluation</h2>
+        </div>
+	    </div>
+	      <div class="container is-max-desktop">
+	        <div class="columns is-centered">
+	          <div class="column is-full-width">
+	            <div class="content has-text-justified">
+	              <p>
+                  We conduct extensive experiments on MMDocRAG to benchmark multimodal retrieval-augmented generation (RAG) capabilities across 36 state-of-the-art models, including 17 vision-language models (VLMs) and 19 language models (LLMs). In our evaluation, VLMs are provided with multimodal interleaved inputs combining text and images, while LLMs receive corresponding pure-text inputs extracted through OCR or VLM-generated descriptions. For quote retrieval and selection, we assess both text and image quotes under varying candidate set sizes (15 and 20 quotes). Multimodal answer generation is evaluated using BLEU and ROUGE-L metrics, complemented by LLM-based fine-grained scoring across five dimensions: fluency, citation quality, text-image coherence, reasoning logic, and factual correctness. Our key findings are summarized as follows:
+                <ul>
+                  <li> Proprietary models such as GPT-4o and Gemini-2.0-Flash-Thinking achieve higher F1 scores when using interleaved multimodal inputs compared to pure-text inputs. Conversely, open-sourced VLMs perform better with OCR-parsed pure-text inputs, suggesting current open models face challenges in handling complex multimodal contexts.</li>
+                  <li> All evaluated models achieve strong performance in the “Workshop” and “Others” categories, where images are simple and text-centered. In contrast, the “Brochure” category, featuring dense visual layouts and less textual information, presents the greatest challenge across all models.</li>
+                </ul>
+                <centering>
+                <div style="text-align: center;">
+                  <img id="teaser" width="85%" src="static/images/eval_result.png">
+                </div>
+                Futher fine-grained study reveals that
+                <ul>
+                  <li> Higher F1 scores generally correlate with improved answer quality across document types. This confirms that better image understanding and evidence selection are crucial for producing more accurate and coherent multimodal answers.</li>
+                  <li> The GPT series achieves balanced performance in both F1 and answer quality. Gemini and Claude models excel in evidence retrieval (F1 scores) but lag in answer generation quality. In contrast, Qwen LLMs improve substantially with larger parameter sizes (up to 72B), while their corresponding VLMs show weaknesses in visual processing.</li>
+                </ul>
+                <br><br>
+
+                <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="85%" src="static/images/eval_result1.png">
+                  </div>
+
+                <centering>
+                <div style="text-align: center;">
+                  <img id="teaser" width="75%" src="static/images/radar.png">
+                </div>
+	              </p>
+	            </div>
+	            </b></font>
+        </div>
+      </div>
+    </section>
+
+
+<section class="section" id="Case Study">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-six-fifths">
+          <h2 class="title is-3"> Case Study</span> </h2>
+        </div>
+      </div>
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <div class="content has-text-justified">
+              <p>
+                We showcase representative examples and analyses to highlight how models handle multimodal retrieval, reasoning, and generation.
+                  <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="100%" src="static/images/case1.png">
+                  </div>
+              </p>
+            </div>
+            </b></font>
+          </div>
+        </div>
+      </div>
+    </section>
+			 
+				 
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
