@@ -1,6 +1,51 @@
 import PIL.Image
-from data_utils import encode_image
+from data_utils import encode_image, load_jsonl
 import json
+import time
+
+
+class OpenAI_LLM_Judge:
+    def __init__(self, api_key, base_url, setting, model="gpt-4o-2024-08-06"):
+        from openai import OpenAI
+        self.api_key = api_key
+        self.client = OpenAI(api_key=api_key, base_url=base_url)
+        self.model = model
+        self.data_json = load_jsonl(f"dataset/evaluation_{setting}.jsonl")
+        print(f"using file dataset/evaluation_{setting}.jsonl for evaluation")
+        self.sys_msg = open("prompt_bank/evaluation_answer.txt", "r", encoding="utf-8").read()
+
+    def get_text_messages(self, q_id, pred_ans):
+        question = self.data_json[q_id]["question"]
+        short_ans = self.data_json[q_id]["answer_short"]
+        gold_ans = self.data_json[q_id]["answer_interleaved"]
+
+        if "</think>\n\n" in pred_ans:
+            pred_ans = pred_ans.split("</think>\n\n")[1]
+
+        messages = [
+            {"role": "system", "content": [{"type": "text", "text": self.sys_msg}]},  # system prompt
+            {"role": "user", "content": []},  # empty user prompt。
+        ]
+        messages[1]["content"].append({"type": "text", "text": f"The  question is: {question}"})
+        messages[1]["content"].append({"type": "text", "text": f"The short answer is: {short_ans}"})
+        messages[1]["content"].append({"type": "text", "text": f"The perfect answer is: {gold_ans}"})
+        messages[1]["content"].append({"type": "text", "text": f"The interleaved answer is: {pred_ans}"})
+        return messages
+
+    def get_api_response(self, q_id, pred_ans):
+        messages = self.get_text_messages(q_id, pred_ans)
+        try:
+            completion = self.client.chat.completions.create(model=self.model, messages=messages,
+                                                             response_format={"type": "json_object"})
+            scores = json.loads(completion.choices[0].message.content)
+            result = {"q_id": q_id, "model": self.model, "response": scores}
+            return result
+        except Exception as e:
+            error_msg = str(e)
+            print(f"error message is: {error_msg}, retrying now")
+            time.sleep(5)
+            return self.get_api_response(q_id, pred_ans)
+
 
 class OpenAI_Inference:
     def __init__(self, api_key, base_url, model, mode="pure-text"):
@@ -77,7 +122,6 @@ class OpenAI_Inference:
         else:
             messages = self.get_interleaved_messages(question, texts, images)
 
-
         try:
             completion = self.client.chat.completions.create(model=self.model, messages=messages)
             result = {"q_id": q_id,
@@ -90,21 +134,19 @@ class OpenAI_Inference:
             return result
         except Exception as e:
             result = {"q_id": q_id,
-                    "model": self.model,
-                    "in_tok": 0,
-                    "out_tok": 0,
-                    "total_tok": 0,
-                    "response": "",
-                    "error": str(e),
-                    }
-        
-            if "error" in result and (not result["error"].startswith("Error code: 400 - {'error': {'code': 'data_inspection_failed'")):
-                error_msg = result["error"]
-                print(f"There is a error occurs: {error_msg}, retrying API call")
+                      "model": self.model,
+                      "in_tok": 0,
+                      "out_tok": 0,
+                      "total_tok": 0,
+                      "response": "",
+                      "error": str(e),
+                      }
+
+            if "error" in result and (
+            not result["error"].startswith("Error code: 400 - {'error': {'code': 'data_inspection_failed'")):
                 return self.get_api_response(q_id, question, texts, images)
 
             return result
-        
 
 
 class Qwen3_inference(OpenAI_Inference):
@@ -163,7 +205,6 @@ class Qwen3_inference(OpenAI_Inference):
         return result
 
 
-
 class Gemini_Inference:
     def __init__(self, api_key, model, mode="pure-text"):
         from google import genai
@@ -201,7 +242,6 @@ class Gemini_Inference:
         user_message += f"The user question is: {question}"
         messages.append(user_message)
         return messages
-
 
     def get_interleaved_messages(self, question, texts, images):
         # 1. initialize system message
@@ -248,7 +288,6 @@ class Gemini_Inference:
                       "error": str(e),
                       }
         return result
-
 
 
 class Anthropic_Inference:
@@ -329,7 +368,7 @@ class Anthropic_Inference:
                       "model": self.model,
                       "in_tok": completion.usage.input_tokens,
                       "out_tok": completion.usage.output_tokens,
-                      "total_tok": completion.usage.input_tokens+completion.usage.output_tokens,
+                      "total_tok": completion.usage.input_tokens + completion.usage.output_tokens,
                       "response": completion.content[0].text,
                       }
         except Exception as e:
@@ -342,7 +381,6 @@ class Anthropic_Inference:
                       "error": str(e),
                       }
         return result
-
 
 
 class Swift_Inference_PT:
@@ -362,7 +400,6 @@ class Swift_Inference_PT:
         self.request_config = RequestConfig(max_tokens=600, temperature=0.5)
         self.mode = "pure-text"
 
-
     @staticmethod
     def get_user_messages(question, texts, images):
         # 1. Add text quotes
@@ -380,7 +417,6 @@ class Swift_Inference_PT:
         # 3. add user question
         user_message += f"The user question is: {question}"
         return [{'role': 'user', 'content': user_message}]
-
 
     def get_api_response(self, q_id, question, texts, images):
         from swift.llm import InferRequest
@@ -401,27 +437,26 @@ class Swift_Inference_VLLM:
     def __init__(self, model_id_or_path, lora_path=""):
         from swift.llm import VllmEngine, RequestConfig
         from swift.plugin import InferStats
-        
+
         self.sys_msg = open("prompt_bank/multimodal_infer.txt", "r", encoding="utf-8").read()
         num_gpu = len(os.environ['CUDA_VISIBLE_DEVICES'].split(","))
         if lora_path == "":
-            self.engine = VllmEngine(model_id_or_path, 
-                                    limit_mm_per_prompt={"image": 20},
-                                    max_model_len=32768,
-                                    tensor_parallel_size=num_gpu)
+            self.engine = VllmEngine(model_id_or_path,
+                                     limit_mm_per_prompt={"image": 20},
+                                     max_model_len=32768,
+                                     tensor_parallel_size=num_gpu)
             self.model = model_id_or_path
         else:
             self.engine = VllmEngine(model_id_or_path,
-                                    lora_path=lora_path,
-                                    limit_mm_per_prompt={"image": 20},
-                                    max_model_len=32768,
-                                    tensor_parallel_size=num_gpu)
+                                     lora_path=lora_path,
+                                     limit_mm_per_prompt={"image": 20},
+                                     max_model_len=32768,
+                                     tensor_parallel_size=num_gpu)
             self.model = model_id_or_path + "_lora"
 
         self.request_config = RequestConfig(max_tokens=512, temperature=0)
         self.metric = InferStats()
         self.mode = "multimodal"
-
 
     @staticmethod
     def get_user_messages(question, texts, images):
@@ -434,21 +469,20 @@ class Swift_Inference_VLLM:
         # 2. Add image quotes vlm-text or ocr-text
         user_message += "\nImage Quotes are:"
         for i, image in enumerate(images):
-            user_message += f"- image{i+1} is <image>"
+            user_message += f"- image{i + 1} is <image>"
             img_list.append(image["img_path"])
         user_message += "\n\n"
         # 3. add user question
         user_message += f"The user question is: {question}"
         return user_message, img_list
 
-
     def get_api_response(self, q_id, question, texts, images):
         from swift.llm import InferRequest
         user_msg, img_list = self.get_user_messages(question, texts, images)
-        messages = {"messages": [{"role": "system", "content": self.sys_msg}, 
+        messages = {"messages": [{"role": "system", "content": self.sys_msg},
                                  {"role": "user", "content": user_msg}], "images": img_list}
         completion = self.engine.infer([InferRequest(**messages)],
-                                       self.request_config, 
+                                       self.request_config,
                                        metrics=[self.metric])
         step = self.metric.compute()
         result = {"q_id": q_id,

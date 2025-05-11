@@ -14,7 +14,8 @@
     <a href="https://stephenliu0423.github.io/"><strong>Yong Liu</strong></a>
   </p>
   <!-- <h2 align="center">Submitted to arXiv</h2> -->
-  📖<a href="https://arxiv.org/abs/2407.01523">Paper</a> |🏠<a href="https://mayubo2333.github.io/MMLongBench-Doc/">Homepage</a></h3>|🤗<a href="https://huggingface.co/datasets/yubo2333/MMLongBench-Doc">Huggingface</a></h3>
+  📖<a href="https://xxx">Paper</a> |🏠<a href="https://mmdocrag.github.io/MMDocRAG/">Homepage</a></h3>|🤗<a 
+href="https://huggingface.co/datasets/MMDocIR/MMDocRAG">Huggingface</a></h3>
 <div align="center"></div>
 <p align="center">
   <p>
