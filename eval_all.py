@@ -240,7 +240,9 @@ def calculate_all(gold_data,eval_data,llm_data):
     print(f'Fluency average：{fluency / count:.2f}    Citation Quality ：{citation / count:.2f}   Text-Image Coherence ：{coherence / count:.2f}')
     print(f'Reasoning Logic：{logic / count:.2f}    Factuality ：{factuality / count:.2f}    total ：{average / count:.2f}')
 
-
+    print(
+        f"{in_tok_len:.1f} & {out_tok_len:.1f} & {img_precison * 100:.1f} & {img_recall * 100:.1f} & {img_f1 * 100:.1f} & {txt_precison * 100:.1f} & "
+        f"{txt_recall * 100:.1f} & {txt_f1 * 100:.1f} &\\cellcolor{{lightgreen}}{final_f1 * 100:.1f} & {final_bleu:.3f} & {final_rougel:.3f}")
 
 def initialize_args():
     parser = argparse.ArgumentParser(description="Evaluation Script for LLMs")

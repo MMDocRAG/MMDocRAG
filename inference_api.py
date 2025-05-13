@@ -180,7 +180,7 @@ if __name__ == '__main__':
             fail_list.append(str(q_id))
 
         if len(out_jsonl) > 0:
-            save_jsonl(out_jsonl, f"response/{model_name}_{infer_mode}_response_quotes{setting}.jsonl")
+            save_jsonl(out_jsonl, f"response/{model_name}_{infer_mode}_quotes{setting}_response.jsonl")
 
         if len(fail_list) > 0:
             fail_out = open(f"response/{model_name}_{infer_mode}_fail_quotes{setting}.txt", "w", encoding="utf-8")
