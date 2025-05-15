@@ -17,6 +17,13 @@ def initialize_infer(api_keys, model_name, mode, enable_thinking):
         base_url = "https://api.openai.com/v1"
         return OpenAI_Inference(api_key=api_key, base_url=base_url, model=model_name, mode=mode)
 
+    # inference for Grok related models
+    elif model_name.startswith("grok"):
+        from inference_wrapper import OpenAI_Inference
+        api_key = api_keys["grok"]
+        base_url = "https://api.x.ai/v1"
+        return OpenAI_Inference(api_key=api_key, base_url=base_url, model=model_name, mode=mode)
+
     # inference for Qwen related models
     elif model_name.startswith("qwen") or model_name.startswith("qvq") or model_name.startswith("qwq") or model_name.startswith("llama-4"):
         api_key = api_keys["qwen"]
@@ -77,6 +84,7 @@ if __name__ == '__main__':
         "openai": "",
         "gemini": "",
         "qwen": "",
+        "grok": "",
         "anthropic": "",
         "deepinfra": "",
     }
