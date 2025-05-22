@@ -129,12 +129,12 @@
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title"> <span class="rainbow-text">MMDocRAG</span>: Benchmarking interleaved image and text generation</h1>
           <div class="is-size-5 publication-authors">
-            <span class="author-block"> <a href="">Kuicai Dong*</a>,</span>
-            <span class="author-block"> <a href="">Yujing Chang*</a>,</span>
-            <span class="author-block"> <a href="">Shijie Huang</a>,</span>
-            <span class="author-block"> <a href="">Yasheng Wang</a>,</span>
-            <span class="author-block"> <a href="">Ruiming Tang</a>,</span>
-            <span class="author-block"> <a href="">Yong Liu</a>,</span>
+            <span class="author-block"> <a href="">Kuicai Dong*</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Yujing Chang*</a><sup></sup><sup>,</span>
+            <span class="author-block"> <a href="">Shijie Huang</a><sup></sup>,</span>
+            <span class="author-block"> <a href="">Yasheng Wang</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Ruiming Tang</a><sup>1</sup>,</span>
+            <span class="author-block"> <a href="">Yong Liu</a><sup>1</sup>,</span>
         </div>
 
           <div class="is-size-5 publication-authors">
@@ -186,18 +186,19 @@ cessing lengthy multimodal documents (text, images, tables) and performing cross
 modal reasoning. Current document retrieval-augmented generation (DocRAG)
 methods remain limited by their text-centric approaches, frequently missing crit-
 ical visual information. The field also lacks robust benchmarks for assessing
-multimodal evidence integration and selection. We introduce MMDocRAG, a com-
+multimodal evidence selection and integration. We introduce MMDocRAG, a com-
 prehensive benchmark featuring 4,055 expert-annotated QA pairs with multi-page,
 cross-modal evidence chains. Our framework introduces innovative metrics for
-evaluating multimodal quote selection and enables answers that combine text with
-relevant visual elements. Through large-scale experiments with 36 language/vision
+evaluating multimodal quote selection and enables answers that interleave text with
+relevant visual elements. Through large-scale experiments with 60 VLM/LLM
 models and 14 retrieval systems, we identify persistent challenges in multimodal
-evidence handling. Key findings reveal proprietary vision-language models show
-moderate advantages over text-only models, while open-source alternatives trail
-significantly. Notably, fine-tuned LLMs achieve substantial improvements when
-using detailed image descriptions. MMDocRAG establishes a rigorous testing ground
-and provides actionable insights for developing more robust multimodal DocVQA
-systems.         </p>
+evidence retrieval, selection, and integration. Key findings reveal advanced pro-
+prietary LVMs show superior performance than open-sourced alternatives. Also,
+they show moderate advantages using multimodal inputs over text-only inputs,
+while open-source alternatives show significant performance degradation. Notably,
+fine-tuned LLMs achieve substantial improvements when using detailed image de-
+scriptions. MMDocRAG establishes a rigorous testing ground and provides actionable
+insights for developing more robust multimodal DocVQA systems.         </p>
       </div>
     </div>
   </div>
@@ -213,7 +214,7 @@ systems.         </p>
                 <ul>
                 <li><b>Multimodal: </b>MMDocRAG supports a novel answer generation paradigm where text, tables, charts, and images are interleaved within responses. This design enables more interpretable, verifiable, and context-rich answers, moving beyond pure-text outputs.</li>
                 <li><b>Evaluation: </b> We introduce novel evaluation methodologies, including fine-grained quote selection under noisy conditions and holistic assessment of multimodal generation based on fluency, citation quality, text-image coherence, reasoning, and factual accuracy.</li> 
-                <li><b>Analysis: </b> Through extensive experiments across 36 cutting-edge models, we reveal that even state-of-the-art VLMs and LLMs struggle with multimodal integration, highlighting the necessity of targeted fine-tuning for advancing multimodal document understanding.</li>
+                <li><b>Analysis: </b> Through extensive experiments across 60 cutting-edge models, we reveal that even state-of-the-art VLMs and LLMs struggle with multimodal integration, highlighting the necessity of targeted fine-tuning for advancing multimodal document understanding.</li>
                 </ul>
               </p>
             </div>
@@ -291,31 +292,34 @@ systems.         </p>
 	          <div class="column is-full-width">
 	            <div class="content has-text-justified">
 	              <p>
-                  We conduct extensive experiments on MMDocRAG to benchmark multimodal retrieval-augmented generation (RAG) capabilities across 36 state-of-the-art models, including 17 vision-language models (VLMs) and 19 language models (LLMs). In our evaluation, VLMs are provided with multimodal interleaved inputs combining text and images, while LLMs receive corresponding pure-text inputs extracted through OCR or VLM-generated descriptions. For quote retrieval and selection, we assess both text and image quotes under varying candidate set sizes (15 and 20 quotes). Multimodal answer generation is evaluated using BLEU and ROUGE-L metrics, complemented by LLM-based fine-grained scoring across five dimensions: fluency, citation quality, text-image coherence, reasoning logic, and factual correctness. Our key findings are summarized as follows:
+                  We conduct large-scale evaluation on 60 state-of-the-art models (LLMs and VLMs) using the MMDocRAG benchmark, under settings with 15 and 20 quotes as context for multimodal generation. Our evaluation covers quote selection accuracy, answer generation quality, input modality (pure-text vs interleaved multimodal), and text source (OCR vs VLM-generated). GPT-4.1 achieves the highest F1 (70.2) and answer quality score (4.14), outperforming other proprietary and open-source models. Proprietary VLMs generally outperform their LLM counterparts when using multimodal inputs, but incur higher computational costs. In contrast, smaller VLMs underperform across all metrics. Notably, Qwen LLMs significantly outperform their VLM equivalents, suggesting weaknesses in visual understanding.Further analysis shows that:
                 <ul>
-                  <li> Proprietary models such as GPT-4o and Gemini-2.0-Flash-Thinking achieve higher F1 scores when using interleaved multimodal inputs compared to pure-text inputs. Conversely, open-sourced VLMs perform better with OCR-parsed pure-text inputs, suggesting current open models face challenges in handling complex multimodal contexts.</li>
-                  <li> All evaluated models achieve strong performance in the “Workshop” and “Others” categories, where images are simple and text-centered. In contrast, the “Brochure” category, featuring dense visual layouts and less textual information, presents the greatest challenge across all models.</li>
+                  <li> 	VLM-generated text contains richer multimodal cues than OCR-extracted text, leading to better performance in both image quote selection and answer generation. Fine-tuning improves model accuracy on multimodal reasoning tasks.</li>
+                  <li> Quote selection accuracy is strongly influenced by quote position: early-position quotes are more likely to be selected, especially for image-based quotes.</li>
                 </ul>
                 <centering>
                 <div style="text-align: center;">
-                  <img id="teaser" width="85%" src="static/images/eval_result.png">
+                  <img id="teaser" width="85%" src="static/images/scatter.png">
                 </div>
-                Futher fine-grained study reveals that
-                <ul>
-                  <li> Higher F1 scores generally correlate with improved answer quality across document types. This confirms that better image understanding and evidence selection are crucial for producing more accurate and coherent multimodal answers.</li>
-                  <li> The GPT series achieves balanced performance in both F1 and answer quality. Gemini and Claude models excel in evidence retrieval (F1 scores) but lag in answer generation quality. In contrast, Qwen LLMs improve substantially with larger parameter sizes (up to 72B), while their corresponding VLMs show weaknesses in visual processing.</li>
-                </ul>
-                <br><br>
-
                 <centering>
                   <div style="text-align: center;">
                     <img id="teaser" width="85%" src="static/images/eval_result1.png">
                   </div>
-
-                <centering>
+            
+                Futher fine-grained study reveals that
+                <ul>
+                  <li> Visual retrievers are better at retrieving image content, while text retrievers excel in textual content. A hybrid retriever offers a more balanced solution.</li>
+                  <li> So-called “thinking models” do not yield significant improvements despite higher token cost, indicating limited benefit from explicit multi-step reasoning under current settings.</li>
+                </ul>
+                <br><br>
+                    <centering>
                 <div style="text-align: center;">
-                  <img id="teaser" width="75%" src="static/images/radar.png">
+                  <img id="teaser" width="85%" src="static/images/eval_result.png">
                 </div>
+
+                
+
+              
 	              </p>
 	            </div>
 	            </b></font>
@@ -339,6 +343,18 @@ systems.         </p>
                   <centering>
                   <div style="text-align: center;">
                     <img id="teaser" width="100%" src="static/images/case1.png">
+                  </div>
+                   <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="100%" src="static/images/case2.png">
+                  </div>
+                   <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="100%" src="static/images/case3.png">
+                  </div>
+                   <centering>
+                  <div style="text-align: center;">
+                    <img id="teaser" width="100%" src="static/images/case4.png">
                   </div>
               </p>
             </div>
