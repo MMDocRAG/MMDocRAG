@@ -14,12 +14,12 @@
     <a href="https://stephenliu0423.github.io/"><strong>Yong Liu</strong></a>
   </p>
   <!-- <h2 align="center">Submitted to arXiv</h2> -->
-  📖<a href="https://xxx">Paper</a> |🏠<a href="https://mmdocrag.github.io/MMDocRAG/">Homepage</a></h3>|🤗<a 
+  📖<a href="https://arxiv.org/abs/2505.16470">Paper</a> |🏠<a href="https://mmdocrag.github.io/MMDocRAG/">Homepage</a></h3>|🤗<a 
 href="https://huggingface.co/datasets/MMDocIR/MMDocRAG">Huggingface</a></h3>
 <div align="center"></div>
 <p align="center">
   <p>
-Document Visual Question Answering (DocVQA) faces dual challenges in processing lengthy multimodal documents (text, images, tables) and performing cross-modal reasoning. Current document retrieval-augmented generation (DocRAG) methods remain limited by their text-centric approaches, frequently missing critical visual information. The field also lacks robust benchmarks for assessing multimodal evidence integration and selection. We introduce MMDocRAG, a comprehensive benchmark featuring 4,055 expert-annotated QA pairs with multi-page, cross-modal evidence chains. Our framework introduces innovative metrics for evaluating multimodal quote selection and enables answers that combine text with relevant visual elements. Through large-scale experiments with 55 language/vision models and 14 retrieval systems, we identify persistent challenges in multimodal evidence handling. Key findings reveal proprietary vision-language models show
+Document Visual Question Answering (DocVQA) faces dual challenges in processing lengthy multimodal documents (text, images, tables) and performing cross-modal reasoning. Current document retrieval-augmented generation (DocRAG) methods remain limited by their text-centric approaches, frequently missing critical visual information. The field also lacks robust benchmarks for assessing multimodal evidence integration and selection. We introduce MMDocRAG, a comprehensive benchmark featuring 4,055 expert-annotated QA pairs with multi-page, cross-modal evidence chains. Our framework introduces innovative metrics for evaluating multimodal quote selection and enables answers that combine text with relevant visual elements. Through large-scale experiments with 60 language/vision models and 14 retrieval systems, we identify persistent challenges in multimodal evidence handling. Key findings reveal proprietary vision-language models show
 moderate advantages over text-only models, while open-source alternatives trail significantly. Notably, fine-tuned LLMs achieve substantial improvements when using detailed image descriptions. MMDocRAG establishes a rigorous testing ground and provides actionable insights for developing more robust multimodal DocVQA systems.
   </p>
   <a href="">
@@ -41,6 +41,7 @@ We support inference from the API providers as follows:
 - For Google Gemini key, please visit https://ai.google.dev/gemini-api/docs/api-key
 - For Anthropic key, please visit https://console.anthropic.com/settings/keys
 - For OpenAI key, please visit https://platform.openai.com/api-keys
+- For xAI key, please visit https://console.x.ai/
 - For Alibaba Cloud Qwen key, please visit https://bailian.console.aliyun.com/?tab=api#/api
 - For Deepinfra key, please visit https://deepinfra.com/dash/api_keys
 
@@ -97,6 +98,8 @@ python train_swift_qwen.py Qwen2.5-7B-Instruct
 >`--setting` parameter is to pass either 15 or 20 quotes for evaluation.
 
 LoRA weights will be saved to path `Qwen2.5-7B-Instruct_lora`
+
+
 
 
 
@@ -233,7 +236,15 @@ This will generate new jsonl file with detailed qualitative scores by LLM-Judge.
 
 ## 💾Citation
 ```
-to be updated
+@misc{dong2025benchmarkingretrievalaugmentedmultimomalgeneration,
+      title={Benchmarking Retrieval-Augmented Multimomal Generation for Document Question Answering}, 
+      author={Kuicai Dong and Yujing Chang and Shijie Huang and Yasheng Wang and Ruiming Tang and Yong Liu},
+      year={2025},
+      eprint={2505.16470},
+      archivePrefix={arXiv},
+      primaryClass={cs.IR},
+      url={https://arxiv.org/abs/2505.16470}, 
+}
 ```
 
 
