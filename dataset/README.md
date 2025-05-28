@@ -53,7 +53,7 @@ Each `text_quotes` or  `img_quotes` item consists of :
 
 ## :high_brightness: ​Training Format
 
-The training set consist of 4,110 json-lines, each following the OpenAI message format in <`system`, `user`, `assistant`> triplets:
+The training set ([train.jsonl](https://github.com/MMDocRAG/MMDocRAG/blob/main/dataset/train.jsonl)) consist of 4,110 json-lines, each following the OpenAI message format in <`system`, `user`, `assistant`> triplets:
 
 | Role      | Content                                                      |
 | --------- | ------------------------------------------------------------ |
