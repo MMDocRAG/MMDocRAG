@@ -32,6 +32,12 @@ moderate advantages over text-only models, while open-source alternatives trail 
 
 ## 🛠️Dataset Usage
 
+### Download Image Quotes
+
+Download [images.zip](https://huggingface.co/datasets/MMDocIR/MMDocRAG/blob/main/images.zip) and unzip it into [`./dataset/`](https://github.com/MMDocRAG/MMDocRAG/tree/main/dataset).
+
+
+
 ### 1. For Inference using API
 
 #### API Key Preparation
@@ -61,6 +67,8 @@ python inference_api.py qwen3-32b --setting 20 --mode pure-text --no-enable-thin
 >
 >`--no-enable-thinking` parameter is to disable thinking process for Qwen3 model, which does not applicable to non-Qwen3 models.
 
+
+
 ### 2. For Inference using Checkpoints
 
 #### Environment
@@ -70,6 +78,14 @@ python 3.9
 2.1.2+cu121
 ms-swift
 ```
+
+
+
+#### Download Checkpoints
+
+Download relevant model and adapter checkpoints and unzip it into [./checkpoint/](https://github.com/MMDocRAG/MMDocRAG/tree/main/checkpoint).
+
+
 
 #### Inference Command
 
@@ -84,6 +100,8 @@ python inference_checkpoint.py Qwen2.5-7B-Instruct --setting 20 --lora Qwen2.5-7
 >`--setting` parameter is to pass either 15 or 20 quotes for evaluation.
 >
 >`--lora` parameter is for loading pre-trained checkpoint with fine-tuned LoRA weights.
+
+
 
 ### 3. For Finetuning Models
 
@@ -148,7 +166,7 @@ python eval_all.py --path xxx/xxx.jsonl --setting 20 --path_judge xxx/xxx.jsonl
 We have released all our inference and LLM-Judge jsonl results for 30 open-source, 25 proprietary, 5 sft models.
 
 - `./response/` for inference
-- `./response/evaluation/` for LLM-Judge scores (yujing确认一下，inference跟llm打分是不是在同一个文件？)
+- `./response/evaluation/` for LLM-Judge scores
 
 You can reproduce the results in our paper by using the command:
 

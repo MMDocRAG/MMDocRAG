@@ -2,12 +2,6 @@
 
 
 
-## :low_brightness:Overview
-
-**MMDocRAG** 
-
-
-
 
 ## :high_brightness: ​Annotation Format
 

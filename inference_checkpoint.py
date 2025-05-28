@@ -35,17 +35,22 @@ if __name__ == '__main__':
             "qwen2.5-vl-72b-instruct": ["multimodal", "https://huggingface.co/Qwen/Qwen2.5-VL-72B-Instruct"],
         },
         "Finetuned Qwen (Ours)": {
-            "qwen2.5-3b-instruct_lora": ["pure-text", "xxxx"],
-            "qwen2.5-7b-instruct_lora": ["pure-text", "xxxx"],
-            "qwen2.5-14b-instruct_lora": ["pure-text", "xxxx"],
-            "qwen2.5-32b-instruct_lora": ["pure-text", "xxxx"],
-            "qwen2.5-72b-instruct_lora": ["pure-text", "xxxx"],
+            "qwen2.5-3b-instruct_lora": ["pure-text", "https://huggingface.co/MMDocIR/MMDocRAG_Qwen2.5-3B-Instruct_lora"],
+            "qwen2.5-7b-instruct_lora": ["pure-text", "https://huggingface.co/MMDocIR/MMDocRAG_Qwen2.5-7B-Instruct_lora"],
+            "qwen2.5-14b-instruct_lora": ["pure-text", "https://huggingface.co/MMDocIR/MMDocRAG_Qwen2.5-14B-Instruct_lora"],
+            "qwen2.5-32b-instruct_lora": ["pure-text", "https://huggingface.co/MMDocIR/MMDocRAG_Qwen2.5-32B-Instruct_lora"],
+            "qwen2.5-72b-instruct_lora": ["pure-text", "https://huggingface.co/MMDocIR/MMDocRAG_Qwen2.5-72B-Instruct_lora"],
         },
         "InternVL": {
             "InternVL2_5-8B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL2_5-8B"],
             "InternVL2_5-26B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL2_5-26B"],
             "InternVL2_5-38B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL2_5-38B"],
             "InternVL2_5-78B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL2_5-78B"],
+            "InternVL3-8B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL3-8B"],
+            "InternVL3-9B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL3-9B"],
+            "InternVL3-14B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL3-14B"],
+            "InternVL3-38B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL3-38B"],
+            "InternVL3-78B": ["multimodal", "https://huggingface.co/OpenGVLab/InternVL3-78B"],
         }
     }
 
@@ -54,7 +59,7 @@ if __name__ == '__main__':
     model_id_or_path, setting, lora_path = args.model_name, args.setting, args.lora
 
     # initialize inference model
-    if model_id_or_path.startswith("Qwen2.5-VL") or model_id_or_path.startswith("InternVL2_5"):
+    if model_id_or_path.startswith("Qwen2.5-VL") or model_id_or_path.startswith("InternVL"):
         '''
         VLLM Inference is used for multimodal mode as for:
         - Very long input sequences
