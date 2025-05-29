@@ -1,9 +1,9 @@
 <p align="center">
-  <h1 align="center">MMDocRAG: Benchmarking Retrieval-Augmented Multimomal Generation for Document Question Answering</h1>
+  <h2 align="center">MMDocRAG: Benchmarking Retrieval-Augmented Multimomal Generation for Document Question Answering</h2>
     <p align="center">
-    <strong>Kuicai Dong</strong></a>
+    <strong>Kuicai Dong*</strong></a>
     ·
-    <strong>Yujing Chang</strong>
+    <strong>Yujing Chang*</strong>
     ·
     <strong>Shijie Huang</strong>
     ·
@@ -12,12 +12,13 @@
     <a href="https://scholar.google.com/citations?user=fUtHww0AAAAJ&hl=en"><strong>Ruiming Tang</strong></a>
     ·
     <a href="https://stephenliu0423.github.io/"><strong>Yong Liu</strong></a>
-  </p>
-  <!-- <h2 align="center">Submitted to arXiv</h2> -->
-  📖<a href="https://arxiv.org/abs/2505.16470">Paper</a> |🏠<a href="https://mmdocrag.github.io/MMDocRAG/">Homepage</a></h3>|🤗<a 
-href="https://huggingface.co/datasets/MMDocIR/MMDocRAG">Huggingface</a></h3>
-<div align="center"></div>
 <p align="center">
+    📖<a href="https://arxiv.org/abs/2505.16470">Paper</a> |
+    🏠<a href="https://mmdocrag.github.io/MMDocRAG/">Homepage</a> |
+    🤗<a href="https://huggingface.co/datasets/MMDocIR/MMDocRAG">Huggingface</a> |
+	👉<a href="https://github.com/mmdocrag/MMDocRAG">Github</a>
+</p>
+<p align="left">
   <p>
 Document Visual Question Answering (DocVQA) faces dual challenges in processing lengthy multimodal documents (text, images, tables) and performing cross-modal reasoning. Current document retrieval-augmented generation (DocRAG) methods remain limited by their text-centric approaches, frequently missing critical visual information. The field also lacks robust benchmarks for assessing multimodal evidence integration and selection. We introduce MMDocRAG, a comprehensive benchmark featuring 4,055 expert-annotated QA pairs with multi-page, cross-modal evidence chains. Our framework introduces innovative metrics for evaluating multimodal quote selection and enables answers that combine text with relevant visual elements. Through large-scale experiments with 60 language/vision models and 14 retrieval systems, we identify persistent challenges in multimodal evidence handling. Key findings reveal proprietary vision-language models show
 moderate advantages over text-only models, while open-source alternatives trail significantly. Notably, fine-tuned LLMs achieve substantial improvements when using detailed image descriptions. MMDocRAG establishes a rigorous testing ground and provides actionable insights for developing more robust multimodal DocVQA systems.
